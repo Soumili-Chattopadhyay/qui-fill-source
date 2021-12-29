@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quifill/database/aadhaar_dataset.dart';
 import 'package:quifill/pages/home.dart';
-import 'package:quifill/pages/signed_document.dart';
 
 void main() {
   runApp(const QuiFill());
@@ -28,7 +26,7 @@ class _QuiFillState extends State<QuiFill> {
   Widget build(BuildContext context) {
     return KeyedSubtree(
       key: sessionKey,
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: HomePage(),
       ),

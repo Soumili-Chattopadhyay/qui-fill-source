@@ -29,6 +29,7 @@ class _GetInfoState extends State<GetInfo> {
 
   Aadhaar? sessionData;
 
+  // ignore: prefer_typing_uninitialized_variables
   var _accountGroupValue;
 
   Map getAadhaarDetails(String input) {
