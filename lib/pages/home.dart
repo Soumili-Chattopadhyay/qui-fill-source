@@ -6,7 +6,7 @@ class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   final String _url =
-      'https://github.com/Soumili-Chattopadhyay/qui-fill-source';
+      'https://github.com/Soumili-Chattopadhyay/qui-fill-source/blob/main/lib/database/aadhaar_dataset.dart';
 
   void _launchURL() async {
     if (!await launch(_url)) throw 'Could not launch $_url';
