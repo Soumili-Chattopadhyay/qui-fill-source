@@ -87,115 +87,94 @@ class _GetInfoState extends State<GetInfo> {
           child: Wrap(
             alignment: WrapAlignment.center,
             children: [
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    (otpActivated)
-                        ? "Enter the sent OTP: "
-                        : "Enter your personal ID number: ",
-                    textScaleFactor: 1.5,
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  (otpActivated)
+                      ? "Enter the sent OTP: "
+                      : "Enter your personal ID number: ",
+                  textScaleFactor: 1.5,
                 ),
               ),
-              const Flexible(child: SizedBox(height: 15.0, width: 15.0)),
-              Flexible(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 500.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: (otpActivated) ? otpController : idController,
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.blue,
-                            width: 1.5,
-                          ),
+              const SizedBox(height: 15.0, width: 15.0),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 500.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: (otpActivated) ? otpController : idController,
+                    decoration: InputDecoration(
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 1.5,
                         ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.blue,
-                            width: 1.5,
-                          ),
-                        ),
-                        labelText: (otpActivated)
-                            ? "One-Time Password"
-                            : "ID number from dataset",
                       ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 1.5,
+                        ),
+                      ),
+                      labelText: (otpActivated)
+                          ? "One-Time Password"
+                          : "ID number from dataset",
                     ),
                   ),
                 ),
               ),
-              Flexible(
-                child: TextButton(
-                  onPressed: () {
-                    if (otpActivated) {
-                      if (otpController.text == "745698") {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => SignedDocument(
-                                  userData: sessionData!,
-                                  accountType: _accountGroupValue.toString(),
-                                )));
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: "Please enter correct OTP!");
-                      }
+              TextButton(
+                onPressed: () {
+                  if (otpActivated) {
+                    if (otpController.text == "745698") {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => SignedDocument(
+                                userData: sessionData!,
+                                accountType: _accountGroupValue.toString(),
+                              )));
                     } else {
-                      if (idController.text.length == 12 &&
-                          _accountGroupValue != null) {
-                        if (getAadhaarDetails(idController.text)['available']) {
-                          setState(() {
-                            otpActivated = true;
-                          });
-                        } else {
-                          Fluttertoast.showToast(
-                              msg:
-                                  "Aadhaar user not found :( Please enter personal ID number from the given dataset!");
-                        }
+                      Fluttertoast.showToast(msg: "Please enter correct OTP!");
+                    }
+                  } else {
+                    if (idController.text.length == 12 &&
+                        _accountGroupValue != null) {
+                      if (getAadhaarDetails(idController.text)['available']) {
+                        setState(() {
+                          otpActivated = true;
+                        });
                       } else {
                         Fluttertoast.showToast(
                             msg:
-                                "Please enter personal ID number from the given dataset and also specify account type!");
+                                "Aadhaar user not found :( Please enter personal ID number from the given dataset!");
                       }
+                    } else {
+                      Fluttertoast.showToast(
+                          msg:
+                              "Please enter personal ID number from the given dataset and also specify account type!");
                     }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      "PROCEED",
-                      textScaleFactor: 1.1,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.blue.shade900,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(
+                    "PROCEED",
+                    textScaleFactor: 1.1,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.blue.shade900,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              Flexible(
-                child: (!otpActivated)
-                    ? TextButton(
-                        onPressed: () => launch(
-                            'https://github.com/Soumili-Chattopadhyay/qui-fill-source/blob/main/lib/database/aadhaar_dataset.dart'),
-                        child: const Padding(
-                          padding: EdgeInsets.all(20.0),
-                          child: Text(
-                            "Sample ID at: https://github.com/Soumili-Chattopadhyay/qui-fill-source/blob/main/lib/database/aadhaar_dataset.dart",
-                            textScaleFactor: 1.1,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      )
-                    : const Padding(
+              (!otpActivated)
+                  ? TextButton(
+                      onPressed: () => launch(
+                          'https://github.com/Soumili-Chattopadhyay/qui-fill-source/blob/main/lib/database/aadhaar_dataset.dart'),
+                      child: const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Text(
-                          "Use OTP as 745698 to continue ...",
+                          "Sample ID at: https://github.com/Soumili-Chattopadhyay/qui-fill-source/blob/main/lib/database/aadhaar_dataset.dart",
                           textScaleFactor: 1.1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -204,104 +183,114 @@ class _GetInfoState extends State<GetInfo> {
                           ),
                         ),
                       ),
-              ),
-              (!otpActivated)
-                  ? Flexible(
-                      child: (MediaQuery.of(context).size.height <
-                              MediaQuery.of(context).size.width)
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              //crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Flexible(
-                                  child: Text(
-                                    "Select account type: ",
-                                    textScaleFactor: 1.3,
-                                    style: TextStyle(color: Colors.blue),
-                                  ),
-                                ),
-                                Flexible(
-                                  child: ConstrainedBox(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 300.0),
-                                    child: RadioListTile(
-                                      value: "Savings Account",
-                                      groupValue: _accountGroupValue,
-                                      title: const Text("Savings Account"),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _accountGroupValue = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                  child: ConstrainedBox(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 300.0),
-                                    child: RadioListTile(
-                                      value: "Current Account",
-                                      groupValue: _accountGroupValue,
-                                      title: const Text("Current Account"),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _accountGroupValue = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Column(
-                              //mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Flexible(
-                                  child: Text(
-                                    "Select account type: ",
-                                    //  textScaleFactor: 1.1,
-                                    style: TextStyle(color: Colors.blue),
-                                  ),
-                                ),
-                                Flexible(
-                                  child: ConstrainedBox(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 250.0),
-                                    child: RadioListTile(
-                                      value: "Savings Account",
-                                      groupValue: _accountGroupValue,
-                                      title: const Text("Savings Account"),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _accountGroupValue = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                  child: ConstrainedBox(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 250.0),
-                                    child: RadioListTile(
-                                      value: "Current Account",
-                                      groupValue: _accountGroupValue,
-                                      title: const Text("Current Account"),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _accountGroupValue = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                     )
+                  : const Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        "Use OTP as 745698 to continue ...",
+                        textScaleFactor: 1.1,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+              (!otpActivated)
+                  ? (MediaQuery.of(context).size.height <
+                          MediaQuery.of(context).size.width)
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          //crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Flexible(
+                              child: Text(
+                                "Select account type: ",
+                                textScaleFactor: 1.3,
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                            Flexible(
+                              child: ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints(maxWidth: 300.0),
+                                child: RadioListTile(
+                                  value: "Savings Account",
+                                  groupValue: _accountGroupValue,
+                                  title: const Text("Savings Account"),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _accountGroupValue = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints(maxWidth: 300.0),
+                                child: RadioListTile(
+                                  value: "Current Account",
+                                  groupValue: _accountGroupValue,
+                                  title: const Text("Current Account"),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _accountGroupValue = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
+                          //mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Flexible(
+                              child: Text(
+                                "Select account type: ",
+                                //  textScaleFactor: 1.1,
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                            Flexible(
+                              child: ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints(maxWidth: 250.0),
+                                child: RadioListTile(
+                                  value: "Savings Account",
+                                  groupValue: _accountGroupValue,
+                                  title: const Text("Savings Account"),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _accountGroupValue = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints(maxWidth: 250.0),
+                                child: RadioListTile(
+                                  value: "Current Account",
+                                  groupValue: _accountGroupValue,
+                                  title: const Text("Current Account"),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _accountGroupValue = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                   : Container(),
             ],
           ),
